@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="hzm-shopping:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="hzm-shopping.war">
+      <element id="artifact" artifact-name="hzm-shopping:war exploded" />
+    </root>
+  </artifact>
+</component>
