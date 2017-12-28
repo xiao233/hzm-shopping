@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iotek.dao.BaseDao">
+    <sql id="bornPrimaryKey">
+        SELECT CUSTOMER_SEQ.nextval FROM DUAL
+    </sql>
+    <resultMap id="customerBase" type="Customer">
+        <id column="ID" property="id"></id>
+        <result column="CUSTOMER_NAME" property="customerName"></result>
+        <result column="CUSTOMER_PASSWORD" property="customerPassword"></result>
+        <result column="CUSTOMER_EMAIL" property="customerEmail"></result>
+        <result column="CUSTOMER_PHONE" property="customerPhone"></result>
+        <result column="CUSTOMER_MONEY" property="customerMoney"></result>
+        <result column="CUSTOMER_CREATE_TIME" property="customerCreateTime"></result>
+        <result column="IS_NORMAL" property="isNormal"></result>
+    </resultMap>
+    <resultMap id="addressBase" type="Address">
+        <id column="ID" property="id"></id>
+        <result column="PROVINCE" property="province"></result>
+        <result column="CITY" property="city"></result>
+        <result column="COUNTRY" property="country"></result>
+        <result column="ROAD" property="road"></result>
+        <result column="CUSTOMER_ID" property="customerId"></result>
+        <result column="ADDRESS_CREATE_TIME" property="addressCreateTime"></result>
+    </resultMap>
+    <resultMap id="orderListBase" type="OrderList">
+        <id column="ID" property="id"></id>
+        <result column="CUSTOMER_ID" property="customerId"></result>
+        <result column="TOTAL_MONEY" property="totalMoney"></result>
+        <result column="IS_PAY" property="isPay"></result>
+        <result column="ORDER_STATE" property="orderState"></result>
+        <result column="ORDER_CREATE_TIME" property="orderCreateTime"></result>
+    </resultMap>
+    <resultMap id="orderItemBase" type="OrderItem">
+        <id column="ID" property="id"></id>
+        <result column="ITEM_NO" property="itemNo"></result>
+        <result column="ORDER_LIST_ID" property="orderListId"></result>
+        <result column="PRODUCT_ID" property="productId"></result>
+        <result column="PRODUCT_NUMBER" property="productNumber"></result>
+        <result column="IS_SEND_OUT" property="isSendOut"></result>
+        <result column="ADDRESS_ID" property="addressId"></result>
+        <result column="ORDER_ITEM_STATE" property="orderItemState"></result>
+    </resultMap>
+    <resultMap id="productBase" type="Product">
+        <id column="ID" property="id"></id>
+        <result column="PRODUCT_NAME" property="productName"></result>
+        <result column="PRODUCT_PRICE" property="productPrice"></result>
+        <result column="PRODUCT_TYPE" property="productType"></result>
+        <result column="PRODUCT_CREATE_TIME" property="productCreateTime"></result>
+    </resultMap>
+    <resultMap id="productDetailBase" type="ProductDetail">
+        <id column="ID" property="id"></id>
+        <result column="PRODUCT_ID" property="productId"></result>
+        <result column="SMALL_IMAGE" property="smallImage"></result>
+        <result column="BIG_IMAGE" property="bigImage"></result>
+        <result column="PRODUCT_CAPTION" property="productCaption"></result>
+    </resultMap>
+    <resultMap id="productStockBase" type="ProductStock">
+        <id column="ID" property="id"></id>
+        <result column="STOCk_NUMBER" property="stockNumber"></result>
+        <result column="STOCk_MODIFIED_TIME" property="stockModifiedTime"></result>
+        <result column="STOCk_CREATE_TIME" property="stockCreateTime"></result>
+        <result column="PRODUCT_ID" property="productId"></result>
+    </resultMap>
+    <resultMap id="productShelfBase" type="ProductShelf">
+        <id column="ID" property="id"></id>
+        <result column="PRODUCT_ID" property="productId"></result>
+        <result column="IS_UP_SHELF" property="isUpShelf"></result>
+        <result column="OPER_TIME" property="operTime"></result>
+        <result column="SHELF_CREATE_TIME" property="shelfCreateTime"></result>
+    </resultMap>
+    <resultMap id="innerStockBase" type="InnerStock">
+        <id column="ID" property="id"></id>
+        <result column="PRODUCT_ID" property="productId"></result>
+        <result column="INNER_STOCK_NUMBER" property="innerStockNumber"></result>
+        <result column="INNER_STOCK_TIME" property="innerStockTime"></result>
+    </resultMap>
+    <resultMap id="outerStockBase" type="OuterStock">
+        <id column="ID" property="id"></id>
+        <result column="PRODUCT_ID" property="productId"></result>
+        <result column="OUTER_STOCK_NUMBER" property="outerStockNumber"></result>
+        <result column="OUT_STOCK_TIME" property="outerStockTime"></result>
+    </resultMap>
+</mapper>

@@ -1,30 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/lib/ojdbc6.jar" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/lib/ojdbc6_g.jar" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/Address.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/aop" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/controller" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/dao" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/intercept" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/mapper" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/po" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/po/Address.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/po/Admin.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/po/Customer.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/po/CustomerComment.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/po/InnerStock.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/po/OrderItem.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/po/OrderList.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/po/OuterStock.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/po/Product.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/po/ProductDetail.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/po/ProductShelf.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/po/ProductStock.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/po/Shopcart.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/service" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/lib/ojdbc6.jar" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/lib/ojdbc6_g.jar" charset="GBK" />
+  <component name="Encoding" defaultCharsetForPropertiesFiles="GBK">
+    <file url="file://$PROJECT_DIR$" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/iotek" charset="GBK" />
+    <file url="PROJECT" charset="GBK" />
   </component>
 </project>

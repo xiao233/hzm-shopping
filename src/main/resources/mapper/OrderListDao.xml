@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iotek.dao.OrderListDao">
+    <resultMap id="orderListMap" type="OrderList" extends="com.iotek.dao.BaseDao.orderListBase">
+        <collection property="orderItems" ofType="OrderItem"
+                column="{orderListId=ID}" select="com.iotek.dao.OrderItemDao.query"></collection>
+    </resultMap>
+
+    <sql id="insertOrderList">
+        INSERT INTO ORDER_LIST
+    </sql>
+    <!--增加大订单信息-->
+    <insert id="add" parameterType="OrderList">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            <include refid="com.iotek.dao.BaseDao.bornPrimaryKey"></include>
+        </selectKey>
+        <include refid="insertOrderList"></include>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                ID,
+            </if>
+            <if test="customerId!=null">
+                CUSTOMER_ID,
+            </if>
+            <if test="totalMoney!=null">
+                TOTAL_MONEY,
+            </if>
+            <if test="orderState!=null">
+                ORDER_STATE,
+            </if>
+            <if test="orderCreateTime!=null">
+                ORDER_CREATE_TIME,
+            </if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="customerId!=null">
+                #{customerId},
+            </if>
+            <if test="totalMoney!=null">
+                #{totalMoney},
+            </if>
+            <if test="orderState!=null">
+                #{orderState},
+            </if>
+            <if test="orderCreateTime!=null">
+                #{orderCreateTime},
+            </if>
+        </trim>
+    </insert>
+
+    <sql id="selectOrderList">
+        SELECT ID,
+        CUSTOMER_ID,
+        TOTAL_MONEY,
+        IS_PAY,
+        ORDER_STATE,
+        ORDER_CREATE_TIME
+        FROM ORDER_LIST
+    </sql>
+    <!--按单一条件查询订单信息-->
+    <select id="query" parameterType="OrderList" resultMap="orderListMap">
+        <include refid="selectOrderList"></include>
+        <where>
+            <choose>
+                <when test="id!=null">
+                 AND   ID=#{id}
+                </when>
+                <when test="customerId!=null">
+                    AND  CUSTOMER_ID =#{customerId}
+                </when>
+                <otherwise>
+                    AND 1=2
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+</mapper>

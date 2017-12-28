@@ -7,7 +7,15 @@
   <version>1.0-SNAPSHOT</version>
   <name>hzm-shopping Maven Webapp</name>
   <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>GBK</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+  </properties>
+ 
   <dependencies>
+
     <!--这个包是AOP联盟的API包，里面包含了针对面向切面的接口。
 通常Spring等其它具备动态织入功能的框架依赖此包。-->
     <dependency>
@@ -297,8 +305,31 @@
       <artifactId>ojdbc6</artifactId>
       <version>11.2.0.4.0</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/cglib/cglib -->
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib</artifactId>
+      <version>3.2.5</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>hzm-shopping</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>
