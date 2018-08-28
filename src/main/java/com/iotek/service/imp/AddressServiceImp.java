@@ -48,6 +48,8 @@ public class AddressServiceImp implements AddressService{
     private void  checkAddress(Address address){
         if (address == null) {
             throw new NullPointerException("地址信息不能为空");
-        }
+        }else{
+	}
+        
     }
 }
