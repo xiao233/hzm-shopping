@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iotek.dao.OuterStockDao">
+    <resultMap id="outerStockMap" type="OuterStock" extends="com.iotek.dao.BaseDao.outerStockBase">
+        <association property="product" javaType="Product" column="id=PRODUCT_ID"
+                     select="com.iotek.dao.ProductDao.query"></association>
+    </resultMap>
+    <sql id="insertOuterStock">
+        INSERT INTO OUTER_STOCK
+    </sql>
+    <!--增加入库信息-->
+    <insert id="add" parameterType="OuterStock">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            <include refid="com.iotek.dao.BaseDao.bornPrimaryKey"></include>
+        </selectKey>
+        <include refid="insertOuterStock"></include>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                ID,
+            </if>
+            <if test="productId!=null">
+                PRODUCT_ID,
+            </if>
+            <if test="outerStockNumber!=null">
+                OUTER_STOCK_NUMBER,
+            </if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="productId!=null">
+                #{productId},
+            </if>
+            <if test="outerStockNumber!=null">
+                #{outerStockNumber},
+            </if>
+        </trim>
+    </insert>
+
+    <sql id="selectOuterStock">
+        SELECT
+        ID,
+        PRODUCT_ID,
+        OUTER_STOCK_NUMBER,
+        OUT_STOCK_TIME
+        FROM OUTER_STOCK
+    </sql>
+    <!--按单一条件查询入库信息-->
+    <select id="query" parameterType="OuterStock" resultMap="outerStockMap">
+        <include refid="selectOuterStock"></include>
+        <where>
+            <choose>
+                <when test="id!=null">
+                    AND ID=#{id}
+                </when>
+                <when test="productId!=null">
+                    AND PRODUCT_ID=#{productId}
+                </when>
+                <otherwise>
+                    1=2
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+</mapper>

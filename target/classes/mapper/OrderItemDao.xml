@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iotek.dao.OrderItemDao">
+    <resultMap id="orderItemMap" type="OrderItem" extends="com.iotek.dao.BaseDao.orderItemBase">
+        <association property="product" javaType="Product"
+                     column="{id=PRODUCT_ID}" select="com.iotek.dao.ProductDao.query"></association>
+        <association property="address" javaType="Address"
+                     column="{id=ADDRESS_ID}" select="com.iotek.dao.AddressDao.query"></association>
+    </resultMap>
+
+    <sql id="insertOrderItem">
+        INSERT  INTO ORDER_ITEM
+    </sql>
+    <!--增加小订单信息-->
+    <insert id="add" parameterType="OrderItem">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            <include refid="com.iotek.dao.BaseDao.bornPrimaryKey"></include>
+        </selectKey>
+        <include refid="insertOrderItem"></include>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                ID,
+            </if>
+            <if test="itemNo!=null">
+                ITEM_NO,
+            </if>
+            <if test="orderListId!=null">
+                ORDER_LIST_ID,
+            </if>
+            <if test="productId!=null">
+                PRODUCT_ID,
+            </if>
+            <if test="productNumber!=null">
+                PRODUCT_NUMBER,
+            </if>
+            <if test="addressId!=null">
+                ADDRESS_ID,
+            </if>
+            <if test="orderItemState!=null">
+                ORDER_ITEM_STATE,
+            </if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="itemNo!=null">
+                #{itemNo},
+            </if>
+            <if test="orderListId!=null">
+                #{orderListId},
+            </if>
+            <if test="productId!=null">
+                #{productId},
+            </if>
+            <if test="productNumber!=null">
+                #{productNumber},
+            </if>
+            <if test="addressId!=null">
+                #{addressId},
+            </if>
+            <if test="orderItemState!=null">
+                #{orderItemState},
+            </if>
+        </trim>
+    </insert>
+
+    <sql id="selectOrderItem">
+        SELECT
+        ID,
+        ITEM_NO,
+        ORDER_LIST_ID,
+        PRODUCT_ID,
+        PRODUCT_NUMBER,
+        IS_SEND_OUT,
+        ADDRESS_ID,
+        ORDER_ITEM_STATE
+        FROM ORDER_ITEM
+    </sql>
+    <!--按单一条件查询订单信息-->
+    <select id="query" parameterType="OrderItem" resultMap="orderItemMap">
+        <include refid="selectOrderItem"></include>
+        <where>
+            <choose>
+                <when test="id!=null">
+                    AND ID=#{id}
+                </when>
+                <when test="itemNo!=null">
+                    AND ITEM_NO=#{itemNo}
+                </when>
+                <when test="orderListId!=null">
+                    AND ORDER_LIST_ID=#{orderListId}
+                </when>
+                <when test="productId!=null">
+                    AND PRODUCT_ID=#{productId}
+                </when>
+                <when test="addressId!=null">
+                    AND ADDRESS_ID=#{addressId}
+                </when>
+            </choose>
+        </where>
+    </select>
+</mapper>

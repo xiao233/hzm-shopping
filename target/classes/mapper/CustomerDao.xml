@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iotek.dao.CustomerDao">
+    <!--设置数据库与类字段的对应关系-->
+    <resultMap id="customerMap" type="Customer" extends="com.iotek.dao.BaseDao.customerBase">
+        <collection property="addressList" ofType="Address"
+                    column="{customerId=ID}" select="com.iotek.dao.AddressDao.query"></collection>
+        <collection property="orderLists" ofType="OrderList"
+                    column="{customerId=ID}" select="com.iotek.dao.OrderListDao.query"></collection>
+    </resultMap>
+
+    <sql id="insertCustomer">
+        INSERT INTO CUSTOMER
+    </sql>
+    <!--增加用户-->
+    <insert id="add" parameterType="Customer">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            <include refid="com.iotek.dao.BaseDao.bornPrimaryKey"></include>
+        </selectKey>
+        <include refid="insertCustomer"></include>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                ID,
+            </if>
+            <if test="customerName!=null">
+                CUSTOMER_NAME,
+            </if>
+            <if test="customerPassword!=null">
+                CUSTOMER_PASSWORD,
+            </if>
+            <if test="customerEmail!=null">
+                CUSTOMER_EMAIL,
+            </if>
+            <if test="customerPhone!=null">
+                CUSTOMER_PHONE,
+            </if>
+            <if test="customerMoney!=null">
+                CUSTOMER_MONEY,
+            </if>
+            <if test="customerCreateTime!=null">
+                CUSTOMER_CREATE_TIME
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="customerName!=null">
+                #{customerName},
+            </if>
+            <if test="customerPassword!=null">
+                #{customerPassword},
+            </if>
+            <if test="customerEmail!=null">
+                #{customerEmail},
+            </if>
+            <if test="customerPhone!=null">
+                #{customerPhone},
+            </if>
+            <if test="customerMoney!=null">
+                #{customerMoney},
+            </if>
+            <if test="customerCreateTime!=null">
+                #{customerCreateTime}
+            </if>
+        </trim>
+    </insert>
+
+
+    <sql id="selectCustomer">
+        SELECT ID,
+          CUSTOMER_NAME,
+          CUSTOMER_PASSWORD,
+          CUSTOMER_EMAIL,
+          CUSTOMER_PHONE,
+          CUSTOMER_MONEY,
+          CUSTOMER_CREATE_TIME,
+          IS_NORMAL
+         FROM customer
+    </sql>
+    <!--通过多个条件查询用户-->
+    <select id="querys" resultMap="customerMap" parameterType="Customer">
+        <include refid="selectCustomer"></include>
+        <where>
+            <if test="id!=null">
+                AND ID=#{id}
+            </if>
+            <if test="customerName!=null">
+                AND CUSTOMER_NAME=#{customerName}
+            </if>
+            <if test="customerPassword!=null">
+                AND CUSTOMER_PASSWORD=#{customerPassword}
+            </if>
+            <if test="customerEmail!=null">
+                AND CUSTOMER_EMAIL=#{customerEmail}
+            </if>
+            <if test="customerPhone!=null">
+                AND CUSTOMER_PHONE=#{customerPhone}
+            </if>
+        </where>
+    </select>
+
+    <!--按单个条件查询-->
+    <select id="query" resultMap="customerMap">
+        <include refid="selectCustomer"></include>
+        <where>
+            <choose>
+                <when test="customerName!=null">
+                    AND CUSTOMER_NAME=#{customerName}
+                </when>
+                <when test="customerPassword!=null">
+                    AND CUSTOMER_PASSWORD=#{customerPassword}
+                </when>
+                <when test="customerEmail!=null">
+                    AND CUSTOMER_EMAIL=#{customerEmail}
+                </when>
+                <when test="customerPhone!=null">
+                    AND CUSTOMER_PHONE=#{customerPhone}
+                </when>
+                <otherwise>
+                    1=2
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <sql id="updateCustomer">
+        UPDATE CUSTOMER
+    </sql>
+    <!--按用户名和密码或者用户id更新用户信息-->
+    <update id="update" parameterType="Customer">
+        <include refid="updateCustomer"></include>
+        <set>
+            <if test="id!=null">
+                ID=#{id},
+            </if>
+            <if test="customerName!=null">
+                CUSTOMER_NAME=#{customerName},
+            </if>
+            <if test="customerPassword!=null">
+                CUSTOMER_PASSWORD=#{customerPassword},
+            </if>
+            <if test="customerEmail!=null">
+                CUSTOMER_EMAIL=#{customerEmail},
+            </if>
+            <if test="customerPhone!=null">
+                CUSTOMER_PHONE=#{customerPhone},
+            </if>
+            <if test="customerMoney!=null">
+                CUSTOMER_MONEY=CUSTOMER_MONEY+#{customerMoney},
+            </if>
+            <if test="isNormal!=null">
+                IS_NORMAL=#{isNormal},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id!=null">
+                    AND ID=#{id}
+                </when>
+                <!--<when test="customerName!=null and customerPassword!=null">
+                    AND CUSTOMER_NAME=#{customerName}
+                    AND CUSTOMER_PASSWORD=#{customerPassword}
+                </when>-->
+                <otherwise>
+                    1=2
+                </otherwise>
+            </choose>
+        </where>
+    </update>
+
+    <sql id="deleteCustomer">
+        DELETE FROM CUSTOMER
+    </sql>
+    <delete id="delete" parameterType="Customer">
+        <include refid="deleteCustomer"/>
+        <where>
+            <choose>
+                <when test="id!=null">
+                    AND ID=#{id}
+                </when>
+                <when test="customerName!=null">
+                    AND CUSTOMER_NAME=#{customerName}
+                </when>
+                <when test="customerPassword!=null">
+                    AND CUSTOMER_PASSWORD=#{customerPassword}
+                </when>
+                <when test="customerEmail!=null">
+                    AND CUSTOMER_EMAIL=#{customerEmail}
+                </when>
+                <when test="customerPhone!=null">
+                    AND CUSTOMER_PHONE=#{customerPhone}
+                </when>
+                <otherwise>
+                    1=2
+                </otherwise>
+            </choose>
+        </where>
+    </delete>
+</mapper>

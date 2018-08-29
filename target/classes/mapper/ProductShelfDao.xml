@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iotek.dao.ProductShelfDao">
+    <resultMap id="productShelfMap" type="ProductShelf" extends="com.iotek.dao.BaseDao.productShelfBase">
+    </resultMap>
+
+    <sql id="insertProductShelf">
+        INSERT INTO PRODUCT_SHELF
+    </sql>
+    <!--增加上架信息-->
+    <insert id="add" parameterType="ProductShelf">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            <include refid="com.iotek.dao.BaseDao.bornPrimaryKey"></include>
+        </selectKey>
+        <include refid="insertProductShelf"></include>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                ID,
+            </if>
+            <if test="productId!=null">
+                PRODUCT_ID,
+            </if>
+            <if test="isUpShelf!=null">
+                IS_UP_SHELF,
+            </if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="productId!=null">
+                #{productId},
+            </if>
+            <if test="isUpShelf!=null">
+                #{isUpShelf},
+            </if>
+        </trim>
+    </insert>
+
+    <sql id="selectProductShelf">
+        SELECT
+        ID,
+        PRODUCT_ID,
+        IS_UP_SHELF,
+        OPER_TIME,
+        SHELF_CREATE_TIME
+        FROM PRODUCT_SHELF
+    </sql>
+    <!--按条件查询上架信息-->
+    <select id="query" parameterType="ProductShelf" resultMap="productShelfMap">
+        <include refid="selectProductShelf"></include>
+        <where>
+            <choose>
+                <when test="id!=null">
+                    AND ID=#{id}
+                </when>
+                <when test="productId!=null">
+                    AND PRODUCT_ID=#{productId}
+                </when>
+                <otherwise>
+                    AND 1=2
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+</mapper>

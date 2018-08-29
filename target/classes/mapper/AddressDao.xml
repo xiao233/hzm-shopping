@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iotek.dao.AddressDao">
+    <!--地址数据库字段和实体类对的映射关系-->
+    <resultMap id="addressMap" type="Address" extends="com.iotek.dao.BaseDao.addressBase">
+    </resultMap>
+
+    <sql id="insertAddress">
+        INSERT INTO ADDRESS
+    </sql>
+    <!--增加地址信息-->
+    <insert id="add" parameterType="Address">
+        --生成主键id
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            <include refid="com.iotek.dao.BaseDao.bornPrimaryKey"></include>
+        </selectKey>
+        <include refid="insertAddress"></include>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                ID,
+            </if>
+            <if test="province!=null">
+                PROVINCE,
+            </if>
+            <if test="city">
+                CITY,
+            </if>
+            <if test="country!=null">
+                COUNTRY,
+            </if>
+            <if test="road!=null">
+                ROAD,
+            </if>
+            <if test="customerId!=null">
+                CUSTOMER_ID,
+            </if>
+            <if test="addressCreateTime">
+                ADDRESS_CREATE_TIME,
+            </if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="province!=null">
+                #{province},
+            </if>
+            <if test="city">
+                #{city},
+            </if>
+            <if test="country!=null">
+                #{country},
+            </if>
+            <if test="road!=null">
+                #{road},
+            </if>
+            <if test="customerId!=null">
+                #{customerId},
+            </if>
+            <if test="addressCreateTime">
+                #{addressCreateTime},
+            </if>
+        </trim>
+    </insert>
+
+    <sql id="selectAddress">
+        SELECT
+          ID,
+          PROVINCE,
+          CITY,
+          COUNTRY,
+          ROAD,
+          CUSTOMER_ID,
+          ADDRESS_CREATE_TIME
+          FROM ADDRESS
+    </sql>
+    <!--按单一条件查询-->
+    <select id="query" parameterType="Address" resultMap="addressMap">
+        <include refid="selectAddress"></include>
+        <where>
+            <choose>
+                <when test="id!=null">
+                    AND ID=#{id}
+                </when>
+                <when test="id!=null">
+                    AND PROVINCE=#{province}
+                </when>
+                <when test="id!=null">
+                    AND CITY=#{city}
+                </when>
+                <when test="id!=null">
+                    AND COUNTRY=#{country}
+                </when>
+                <when test="road!=null">
+                    AND ROAD=#{road}
+                </when>
+                <when test="customerId!=null">
+                    AND CUSTOMER_ID=#{customerId}
+                </when>
+                <otherwise>
+                    1=2
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+</mapper>

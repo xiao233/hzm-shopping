@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iotek.dao.ProductDetailDao">
+    <resultMap id="productDetailMap" type="ProductDetail" extends="com.iotek.dao.BaseDao.productDetailBase">
+    </resultMap>
+
+    <sql id="insertProductDetail">
+        INSERT INTO PRODUCT_DETAIL
+    </sql>
+    <!--增加商品详情-->
+    <insert id="add" parameterType="ProductDetail">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            <include refid="com.iotek.dao.BaseDao.bornPrimaryKey"></include>
+        </selectKey>
+        <include refid="insertProductDetail"></include>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                ID,
+            </if>
+            <if test="productId!=null">
+                PRODUCT_ID,
+            </if>
+            <if test="smallImage!=null">
+                SMALL_IMAGE,
+            </if>
+            <if test="bigImage!=null">
+                BIG_IMAGE,
+            </if>
+            <if test="productCaption!=null">
+                PRODUCT_CAPTION,
+            </if>
+        </trim>
+        <trim prefix="Values(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="productId!=null">
+                #{productId},
+            </if>
+            <if test="smallImage!=null">
+                #{smallImage},
+            </if>
+            <if test="bigImage!=null">
+                #{bigImage},
+            </if>
+            <if test="productCaption!=null">
+                #{productCaption},
+            </if>
+        </trim>
+    </insert>
+
+    <sql id="selectProductDetail">
+        SELECT
+        ID,
+        PRODUCT_ID,
+        SMALL_IMAGE,
+        BIG_IMAGE,
+        PRODUCT_CAPTION
+        FROM  XIAO.PRODUCT_DETAIL
+    </sql>
+    <select id="query" resultMap="productDetailMap" parameterType="ProductDetail">
+        <include refid="selectProductDetail"></include>
+        <where>
+            <choose>
+                <when test="id!=null">
+                    AND ID=#{id}
+                </when>
+                <when test="productId!=null">
+                    AND PRODUCT_ID=#{productId}
+                </when>
+                <when test="smallImage!=null">
+                    AND SMALL_IMAGE=#{smallImage}
+                </when>
+                <when test="bigImage!=null">
+                    AND BIG_IMAGE=#{bigImage}
+                </when>
+                <otherwise>
+                    1=2
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+</mapper>
